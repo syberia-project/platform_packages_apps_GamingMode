@@ -12,6 +12,7 @@
     <string name="performance_text_for_powersave">Úsporný režim</string>
     <string name="performance_text_for_performance">Výkon</string>
     <string name="qs_auto_brightness">Automatický jas</string>
+    <string name="qs_fpsinfo">FPS</string>
     <string name="qs_danmaku">Danmaku</string>
     <string name="qs_dnd">Nerušit</string>
     <string name="qs_lock_gesture">Gesto uzamčení</string>
