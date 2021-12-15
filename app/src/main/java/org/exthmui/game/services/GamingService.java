@@ -63,8 +63,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.android.internal.custom.hardware.LineageHardwareManager;
-
 public class GamingService extends Service {
 
     private static final String TAG = "GamingService";
@@ -83,7 +81,6 @@ public class GamingService extends Service {
 
     private AudioManager mAudioManager;
     private IStatusBarService mStatusBarService;
-    private LineageHardwareManager mLineageHardware;
     private TelephonyManager mTelephonyManager;
     private TelecomManager mTelecomManager;
 
@@ -153,11 +150,6 @@ public class GamingService extends Service {
         mTelephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         mTelecomManager = (TelecomManager) getSystemService(TELECOM_SERVICE);
         mStatusBarService = IStatusBarService.Stub.asInterface(ServiceManager.getService(Context.STATUS_BAR_SERVICE));
-        try {
-            mLineageHardware = LineageHardwareManager.getInstance(this);
-        } catch (Error e) {
-            Log.e(TAG, "get LineageHardwareManager failed!", e);
-        }
 
         registerReceiver(mGamingModeOffReceiver, new IntentFilter(Constants.Broadcasts.SYS_BROADCAST_GAMING_MODE_OFF));
         LocalBroadcastManager.getInstance(this).registerReceiver(mCallControlReceiver, new IntentFilter(Constants.Broadcasts.BROADCAST_CALL_CONTROL));
@@ -171,7 +163,7 @@ public class GamingService extends Service {
         mOverlayServiceIntent = new Intent(this, OverlayService.class);
         mFPSServiceIntent = new Intent(this, FPSInfoService.class);
 
-        PendingIntent stopGamingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Constants.Broadcasts.SYS_BROADCAST_GAMING_MODE_OFF), 0);
+        PendingIntent stopGamingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Constants.Broadcasts.SYS_BROADCAST_GAMING_MODE_OFF), PendingIntent.FLAG_IMMUTABLE);
         Notification.Builder builder = new Notification.Builder(this, Constants.CHANNEL_GAMING_MODE_STATUS);
         Notification.Action.Builder actionBuilder = new Notification.Action.Builder(null, getString(R.string.action_stop_gaming_mode), stopGamingIntent);
         builder.addAction(actionBuilder.build());
